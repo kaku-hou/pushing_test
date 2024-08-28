@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta charset='utf-8/'>
-  <link rel="manifest" href="./front/manifest.json">
+  <link rel="manifest" href="./manifest.json">
   <script>
     // service workerが有効なら、service-worker.js を登録します
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./front/service-worker.js')
-      .them((registration) => {
+      navigator.serviceWorker.register('./service-worker.js')
+      .then((registration) => {
         consle.log('Service Worker registerd with scope:', registration.scope);
       })
       .catch((err) => {
