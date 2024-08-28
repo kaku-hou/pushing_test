@@ -6,7 +6,7 @@
   <script>
     // service workerが有効なら、service-worker.js を登録します
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./front/firebase-messaging-sw.js')
+      navigator.serviceWorker.register('./firebase-messaging-sw.js')
       .then((registration) => {
         console.log('Service Worker registerd with scope:', registration.scope);
       })
