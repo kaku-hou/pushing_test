@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8/'>
+  <link rel="manifest" href="./manifest.json">
+  <script>
+    // service workerが有効なら、service-worker.js を登録します
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js');
+   }
+  </script>
+</head>
+<body>
+    <button id="allow_push_notification">トークン取得</button>
+    <p id="output"></p>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfzBuZIPuOE6fAMhUHs4RlPd5tDwwf8LE",
+            authDomain: "push-notification-test-be537.firebaseapp.com",
+            projectId: "push-notification-test-be537",
+            storageBucket: "push-notification-test-be537.appspot.com",
+            messagingSenderId: "605463802556",
+            appId: "1:605463802556:web:846c6e49b958fe9c5416b9",
+            measurementId: "G-8EKBZ7RTET"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // 通知を許可するボタンが押された時のアクション
+        const btn = document.getElementById('allow_push_notification');
+        btn.addEventListener("click", function () {
+            //let promise = Notification.requestPermission();
+            //console.log("promise: ",promise);
+            if (!("Notification" in window)) {
+                // ブラウザーが通知に対応しているか調べる
+                alert("このブラウザーはデスクトップ通知には対応していません。");
+            } else if (Notification.permission !== "denied") {
+
+            //if(Notification.permission !== "denied") {
+                Notification.requestPermission().then((permission) => {
+                    const messaging = getMessaging();
+                    // Add the public key generated from the console here.
+                    getToken(messaging, {vapidKey: "BNCd9nBqSKWRMJ-lV8aZy5rec_y42o7Jws8PMRaKHcNVbMmMBbo8LX6VAy5qf1uM0Ff11nJng8XVjBqSRB7AIBk"})
+                        .then((token) => {
+                            if (token) {
+                                // tokenを出力
+                                //document.getElementById('output').textContent = `${token.Promise}`;
+                                console.log( "token", token);
+                                document.getElementById('output').textContent = token;
+                            }else{
+                                console.log('登録トークンがありません。生成する許可をリクエストします。');
+                            }
+                        })
+                        .catch((err) => {
+                            console.log('getToken Error',err);
+                        });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
