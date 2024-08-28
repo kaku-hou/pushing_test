@@ -6,7 +6,13 @@
   <script>
     // service workerが有効なら、service-worker.js を登録します
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js');
+      navigator.serviceWorker.register('./front/service-worker.js')
+      .them((registration) => {
+        consle.log('Service Worker registerd with scope:', registration.scope);
+      })
+      .catch((err) => {
+        console.error('Service Worker registration failed:', err);
+      });
    }
   </script>
 </head>
