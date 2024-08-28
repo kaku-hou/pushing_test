@@ -6,9 +6,9 @@
   <script>
     // service workerが有効なら、service-worker.js を登録します
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
+      navigator.serviceWorker.register('./firebase-messaging-sw.js')  // service-worker.js から firebase-messaging-sw.js に変更
       .then((registration) => {
-        console.log('Service Worker registerd with scope:', registration.scope);
+        console.log('Service Worker registered with scope:', registration.scope);
       })
       .catch((err) => {
         console.error('Service Worker registration failed:', err);
@@ -36,35 +36,31 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
 
         // 通知を許可するボタンが押された時のアクション
         const btn = document.getElementById('allow_push_notification');
         btn.addEventListener("click", function () {
-            //let promise = Notification.requestPermission();
-            //console.log("promise: ",promise);
             if (!("Notification" in window)) {
                 // ブラウザーが通知に対応しているか調べる
                 alert("このブラウザーはデスクトップ通知には対応していません。");
             } else if (Notification.permission !== "denied") {
-
-            //if(Notification.permission !== "denied") {
                 Notification.requestPermission().then((permission) => {
-                    const messaging = getMessaging();
-                    // Add the public key generated from the console here.
-                    getToken(messaging, {vapidKey: "BNCd9nBqSKWRMJ-lV8aZy5rec_y42o7Jws8PMRaKHcNVbMmMBbo8LX6VAy5qf1uM0Ff11nJng8XVjBqSRB7AIBk"})
-                        .then((token) => {
-                            if (token) {
-                                // tokenを出力
-                                //document.getElementById('output').textContent = `${token.Promise}`;
-                                console.log( "token", token);
-                                document.getElementById('output').textContent = token;
-                            }else{
-                                console.log('登録トークンがありません。生成する許可をリクエストします。');
-                            }
-                        })
-                        .catch((err) => {
-                            console.log('getToken Error',err);
-                        });
+                    // サービスワーカーの登録とトークンの取得
+                    navigator.serviceWorker.ready.then((registration) => {
+                        getToken(messaging, {vapidKey: "BNCd9nBqSKWRMJ-lV8aZy5rec_y42o7Jws8PMRaKHcNVbMmMBbo8LX6VAy5qf1uM0Ff11nJng8XVjBqSRB7AIBk", serviceWorkerRegistration: registration})
+                            .then((token) => {
+                                if (token) {
+                                    console.log("token", token);
+                                    document.getElementById('output').textContent = token;
+                                } else {
+                                    console.log('登録トークンがありません。生成する許可をリクエストします。');
+                                }
+                            })
+                            .catch((err) => {
+                                console.log('getToken Error', err);
+                            });
+                    });
                 });
             }
         });
