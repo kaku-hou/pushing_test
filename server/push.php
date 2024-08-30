@@ -26,7 +26,7 @@ $headers = array(
 );
 
 curl_setopt_array($ch2, array(
-    CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/spushing-by-express/messages:send',
+    CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/pushing-by-express/messages:send',
     CURLOPT_HTTPHEADER => $headers,
     CURLOPT_SSL_VERIFYPEER => false,
     CURLOPT_POST => true,
