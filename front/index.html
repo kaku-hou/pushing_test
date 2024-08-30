@@ -25,13 +25,12 @@
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyDfzBuZIPuOE6fAMhUHs4RlPd5tDwwf8LE",
-            authDomain: "push-notification-test-be537.firebaseapp.com",
-            projectId: "push-notification-test-be537",
-            storageBucket: "push-notification-test-be537.appspot.com",
-            messagingSenderId: "605463802556",
-            appId: "1:605463802556:web:846c6e49b958fe9c5416b9",
-            measurementId: "G-8EKBZ7RTET"
+            apiKey: "AIzaSyDJntywNJsG7_KmH-wpUVhJoi1UhqFQLAM",
+            authDomain: "pushing-by-express.firebaseapp.com",
+            projectId: "pushing-by-express",
+            storageBucket: "pushing-by-express.appspot.com",
+            messagingSenderId: "127412118783",
+            appId: "1:127412118783:web:7b1d9104a519c9347918ca"
         };
 
         // Initialize Firebase
@@ -48,7 +47,7 @@
                 Notification.requestPermission().then((permission) => {
                     // サービスワーカーの登録とトークンの取得
                     navigator.serviceWorker.ready.then((registration) => {
-                        getToken(messaging, {vapidKey: "BNCd9nBqSKWRMJ-lV8aZy5rec_y42o7Jws8PMRaKHcNVbMmMBbo8LX6VAy5qf1uM0Ff11nJng8XVjBqSRB7AIBk", serviceWorkerRegistration: registration})
+                        getToken(messaging, {vapidKey: "BJoWNctx6gGn9PKvhvaRZw8Y0gLWL2wNkKk-A6BFkDtluLbhHBnA7BEsaw6Y17D01uObNRr5gg2kLTd6BfFrTLQ", serviceWorkerRegistration: registration})
                             .then((token) => {
                                 if (token) {
                                     console.log("token", token);
