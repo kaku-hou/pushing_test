@@ -3,7 +3,7 @@ require 'vendor/autoload.php';
 
 //アクセストークン取得
 $client = new Google_Client();
-$client->setAuthConfig('push-notification-test-be537-firebase-adminsdk-3wxhf-91948701a9.json');
+$client->setAuthConfig('pushing-by-express-firebase-adminsdk-imgu3-9bf133953c.json');
 $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
 $client->refreshTokenWithAssertion();
 $access_token = $client->getAccessToken();
@@ -26,7 +26,7 @@ $headers = array(
 );
 
 curl_setopt_array($ch2, array(
-    CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/push-notification-test-be537/messages:send',
+    CURLOPT_URL => 'https://fcm.googleapis.com/v1/projects/spushing-by-express/messages:send',
     CURLOPT_HTTPHEADER => $headers,
     CURLOPT_SSL_VERIFYPEER => false,
     CURLOPT_POST => true,
